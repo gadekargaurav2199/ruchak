@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+<style>
+    .gaurav {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: whitesmoke;
+        margin-bottom: 10px;
+    }
+</style>
+
+
+
+<div style="background-color:beige; height: 100vh;">
+
+    <div class="container-fluid text-center">
+        <div class="row">
+            {% comment %} <div class="col-sm-1"></div> {% endcomment %}
+
+
+
+
+
+
+            <!-- content goes here -->
+            <div class="col-12 gaurav">
+                <h5 style="color: blue;">Item List <button class="btn btn-primary float-right" data-toggle="modal"
+                        data-target="#myModal">Add Item</button></h5>
+                {% comment %} <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Item"
+                    title="Type in a name"> {% endcomment %}
+                <input type="text" id="myInput" oninput="searchAndSort()" placeholder="Search Item"
+                    title="Type in a name">
+
+                <script>
+                    function searchAndSort() {
+                        var table, rows, i, searchData, shouldDisplay;
+                        table = document.getElementById("myTable");
+                        var input = document.getElementById("myInput").value.toLowerCase();
+                        rows = table.getElementsByTagName("tr");
+
+                        for (i = 1; i < rows.length; i++) {
+                            shouldDisplay = false;  // Initialize shouldDisplay to false
+
+                            // Compare search input with columns (Item, price)
+                            for (var j = 1; j <= 3; j++) {
+                                searchData = rows[i].getElementsByTagName("td")[j].innerHTML.toLowerCase();
+                                if (searchData.indexOf(input) > -1) {
+                                    shouldDisplay = true;
+                                    break;  // If any column matches, set shouldDisplay to true and break
+                                }
+                            }
+
+                            if (shouldDisplay) {
+                                rows[i].style.display = "";  // Show rows that match search
+                            } else {
+                                rows[i].style.display = "none";  // Hide rows that don't match search
+                            }
+                        }
+                    }
+                </script>
+
+
+
+
+                <!-- Enter New Student Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content p-3">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" style="align-content: center;">Please Add New
+                                    Item</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+                            <div class="modal-body">
+
+                                <form action="/myhotel/item/" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="text-success"><b><i>Item Name</i></b></label>
+                                        <input type="text" name="Item_Name" class="form-control"
+                                            id="exampleFormControlInput1" placeholder="Enter Item Name">
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><b><i>Unit Price</i></b></label>
+                                                <input type="number" name="unit_price" class="form-control"
+                                                    id="exampleFormControlInput1" placeholder="Enter Prize" step="any">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr>
+
+                                    <button type="submit" class="btn btn-primary my-2">Save</button>
+
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- End of Enter New Student Modal -->
+
+                <div class="container">
+                    <table class="table table-hover" id="myTable">
+                        <thead>
+                            <tr style="color: black;">
+                                <th scope="col">S/N</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">price</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in item %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td style="display: none;">{{row.id}}</td>
+                                <td>{{row.Item_Name}}</td>
+                                <td>{{row.unit_Price}}</td>
+                                <td>
+                                    <a href="" class="btn btn-success text-white"
+                                        data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                                </td>
+                                <td>
+                                    <a href="/myhotel/item-delete/{{ row.id }}"
+                                        onclick="return confirm('Are Sure Want To Deleted ?')"
+                                        class="btn btn-danger">Delete</a>
+
+                                </td>
+                            </tr>
+
+
+                            <!-- Enter Edit Student Modal -->
+                            <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" style="align-content: center;">Update
+                                                Item Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+
+                                        <div class="modal-body">
+                                            <form action="/myhotel/item-update/{{row.id}}/" method="POST">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label class="text-success"><b><i>Item Name</i></b></label>
+                                                    <input type="text" name="Item_Name" class="form-control"
+                                                        value="{{row.Item_Name}}" id="exampleFormControlInput1"
+                                                        placeholder="Enter Item Name">
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><b><i>Unit Price</i></b></label>
+                                                            <input type="number" name="Price_For_Cash_Cust"
+                                                                class="form-control" value="{{row.unit_Price}}"
+                                                                id="exampleFormControlInput1" placeholder="Enter Prize"
+                                                                step="any">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                        </div>
+
+
+
+
+
+                                        <button style="border: 1px solid red;" type="submit"
+                                            class="btn btn-success mt-2">Update</button>
+
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                </div>
+
+
+                <!-- End of Edit Student Modal -->
+
+
+
+
+                {% endfor %}
+                </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+        <!-- Content ends here-->
+
+
+        <div class="col-sm-2"></div>
+
+    </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+{% endblock %}

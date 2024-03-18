@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Food Bill</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+        width: 3in; /* Set width for three inches printer */
+        
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 0;
+    }
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .details {
+        margin-bottom: 0;
+    }
+    .dish-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
+    .dish-table th, .dish-table td {
+        border: 0.5px solid #000;
+        padding: 0px;
+    }
+    .total {
+        margin-top: 5px;
+        text-align: right;
+    }
+    .thank-you {
+        margin-top: 5px;
+        text-align: center;
+    }
+  
+</style>
+</head>
+<body onload="printPage()" onclick="printPage()">
+    <center>
+    <div class="header">
+        <div class="header">***************************</div>
+        <div class="title">{{hotel_name}}</div>
+        <div class="details">
+            <p>Customer Name: {{customer_data.customer_name}}</p>
+            <p>Table Number: {{table_id}}</p>
+            <p>Address: {{address}}</p>
+            <p>Mobile Number: {{contact1}} / {{contact2}}</p>
+        </div>
+    </div>
+    <table class="dish-table" style="padding: 0; text-align: center; margin: 0;">
+        <thead>
+            <tr>
+                <th>Dish Name</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in billing_data %}
+            <tr>
+                <td>{{data.Item_Name}}</td>
+                <td>{{data.unit_Price}}</td>
+                <td>{{data.quantity}}</td>
+                <td>{{data.Total}}</td>
+            </tr>
+            {% endfor %}
+            <!-- Add more rows for other dishes -->
+        </tbody>
+    </table>
+    <h2 class="total">
+        Total Amount: Rs. {{Total_Count}} <!-- Calculate and replace with actual total amount -->
+    </h2>
+    <p class="thank-you">
+        Thank you for dining with us!
+    </p>
+    <p><center>Amrutam Technology pvt. ltd 📞7666188318</center></p>
+    <div><center>***************************</center></div>
+</center>
+</body>
+<script>
+    function printPage() {
+      window.print(); // This will trigger the browser's print dialog
+    }
+  </script>
+</html>

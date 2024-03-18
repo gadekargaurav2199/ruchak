@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+        {% for data in customer_data_list %}
+        <div class="col-md-4">
+            <div class="card shadow m-3" style="background-color: rgb(254, 254, 254); border: 2px solid rgb(223, 217, 232);">
+                <a href="makebill/{{ forloop.counter }}" style="text-decoration: none; color: black;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center text-dark">-- Table {{data.table_no}} --<span class="mx-3">{% if data.total %} 🟢 {% endif %}</span></h5>
+
+                        <p class="card-text" style="color: rgb(145, 143, 143);">{% if data.customer_name %} Customer: {{data.customer_name}} {% else %} --- {% endif %}
+                        </p>
+                            <p class="card-text text-center"><b class="text-danger">Total Rs:- {{data.total}} /-</b><span> <a href="/myhotel/generate/{{data.table_no}}/"><span class="btn btn-outline-primary btn-sm mx-3">Print Bill</span></a></span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <!-- Add more columns for additional tables -->
+    </div>
+{% endblock %}

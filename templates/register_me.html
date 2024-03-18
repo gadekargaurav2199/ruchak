@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Registration Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container my-5">
+<style>
+    /* Add these animations to your CSS */
+    .animated {
+      -webkit-animation-duration: 1s;
+      animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+    
+    @keyframes fadeInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .fadeInLeft {
+      -webkit-animation-name: fadeInLeft;
+      animation-name: fadeInLeft;
+    }
+    
+    @keyframes fadeOutRight {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+    }
+    
+    .fadeOutRight {
+      -webkit-animation-name: fadeOutRight;
+      animation-name: fadeOutRight;
+    }
+    
+    </style>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="container text-center alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} animated fadeInLeft" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+      <script>
+        // Function to remove alerts after 2 seconds
+        setTimeout(function() {
+          var alerts = document.querySelectorAll('.alert');
+          alerts.forEach(function(alert) {
+            alert.classList.remove('fadeInLeft');
+            alert.classList.add('fadeOutRight');
+            setTimeout(function() {
+              alert.remove();
+            }, 1000); // Remove after animation completes (1000 milliseconds)
+          });
+        }, 2000); // Remove after 2 seconds (2000 milliseconds)
+      </script>
+    {% endif %}
+    
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Add Customer
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="container-fluid registration-container">
+              <div class="row justify-content-center">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">Hotel Registration Form</div>
+                    <div class="card-body">
+                      <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="hotelName">Hotel Name</label>
+                          <input type="text" class="form-control" name="hotelName" id="hotelName"
+                            placeholder="Enter hotel name">
+                        </div>
+                        <div class="form-group">
+                          <label for="address">Address</label>
+                          <input type="text" class="form-control" name="address" id="address"
+                            placeholder="Enter address">
+                        </div>
+                        <div class="form-group">
+                          <label for="mobileNumber">Mobile Number</label>
+                          <input type="text" class="form-control" name="mobileNumber" id="mobileNumber"
+                            placeholder="Enter mobile number" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="alternateNumber">Alternate Number</label>
+                          <input type="text" class="form-control" name="alternateNumber" id="alternateNumber"
+                            placeholder="Enter alternate number">
+                        </div>
+                       
+                        <div class="form-group">
+                          <label for="password">Password</label>
+                          <input type="password" class="form-control" name="password" id="password"
+                            placeholder="Enter password">
+                        </div>
+                        <div class="form-group">
+                          <label for="validUpto">Valid Upto</label>
+                          <input type="date" class="form-control" name="validUpto" id="validUpto">
+                        </div>
+                        <div class="form-group">
+                          <label for="payment">Payment in Rs</label>
+                          <input type="number" class="form-control" name="payment" id="payment"
+                            placeholder="Enter payment amount">
+                        </div>
+                        <div class="form-group">
+                          <label for="details">Additional Details</label>
+                          <textarea class="form-control" name="details" id="details" rows="3"
+                            placeholder="Enter additional details"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container">
+
+      <table id="myTable" class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Hotel Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Mobile Number</th>
+            <th scope="col">Alternate Number</th>
+            <th scope="col">Email</th>
+            <!-- <th scope="col">Username</th> -->
+            <!-- <th scope="col">Password</th> -->
+            <th scope="col">Valid Upto</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Details</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.hotel_name }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.mobile_number }}</td>
+            <td>{{ user.alternate_number }}</td>
+            <td>{{ user.email }}</td>
+            <!-- <td>{{ user.username }}</td> -->
+            <!-- <td>{{ user.password }}</td> -->
+            <td>{{ user.valid_upto }}</td>
+            <td>{{ user.payment }}</td>
+            <td>{{ user.details }}</td>
+            <td><button class="btn btn-success btn-sm">Edit</button></td>
+            <td><button class="btn btn-danger btn-sm">Edit</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

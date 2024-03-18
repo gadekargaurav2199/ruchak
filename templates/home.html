@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Management System</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+    .navbar {
+      background-color: #343a40 !important;
+    }
+    .navbar-brand {
+      color: #fff;
+      font-weight: bold;
+    }
+    .navbar-nav .nav-link {
+      color: #fff !important;
+    }
+    .jumbotron {
+      background-color: #007bff;
+      color: #fff;
+      padding: 100px 0;
+      margin-bottom: 0;
+    }
+    .login-container {
+      margin-top: 10px;
+    }
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 10px 10px 0 0;
+      font-weight: bold;
+    }
+    .card-body {
+      padding: 30px;
+    }
+    .form-group label {
+      font-weight: bold;
+    }
+    .form-control {
+      border-radius: 20px;
+      padding: 15px;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      border-radius: 20px;
+      padding: 12px 30px;
+      font-weight: bold;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    /* Footer Styles */
+    .footer {
+      background-color: #343a40;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-control {
+    padding: 15px;
+    border-radius: 25px;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.text-center a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+
+
+<style>
+  /* Add these animations to your CSS */
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+
+@keyframes fadeOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+.fadeOutRight {
+  -webkit-animation-name: fadeOutRight;
+  animation-name: fadeOutRight;
+}
+
+</style>
+{% if messages %}
+  {% for message in messages %}
+    <div class="container text-center alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} animated fadeInLeft" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+  <script>
+    // Function to remove alerts after 2 seconds
+    setTimeout(function() {
+      var alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function(alert) {
+        alert.classList.remove('fadeInLeft');
+        alert.classList.add('fadeOutRight');
+        setTimeout(function() {
+          alert.remove();
+        }, 1000); // Remove after animation completes (1000 milliseconds)
+      });
+    }, 2000); // Remove after 2 seconds (2000 milliseconds)
+  </script>
+{% endif %}
+
+<div class="container">
+    <h2>Login</h2>
+    <form action="" method="post" class="m-3">
+      {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <p class="text-center">Don't have an account? <a href="#">Sign up</a></p>
+</div>
+<hr>
+<hr>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5 class="card-title">Sign Up</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/inquiry/" method="post">
+                      {% csrf_token %} 
+                        <div class="form-group">
+                            <label for="email">Enter Your Contact Number</label>
+                            <input type="number" name="inquiry" class="form-control" id="email" placeholder="Enter Contact Number">
+                        </div>
+                        <div class="form-group">
+                            <ul class="list-unstyled">
+                                <li><strong>Please contact:</strong></li>
+                                <li>Mobile: +91 7666188318</li>
+                                <li>Email: amrutamtechnology@gmail.com</li>
+                                <li>WhatsApp: +91 7666188318</li>
+                            </ul>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Call Me</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
