@@ -60,7 +60,27 @@ def make_bill(request,table_id):
     except:
         customer_data=None
 
-    return render(request,'makebill.html' ,{'customer_data':customer_data,'Total_Count':Total_Count,'table_id':table_id,'dish_data':dish_data,'billing_data':billing_data})
+    customer_info_data = []
+    for table_number_idx in range(1, 31):
+        try:
+            customer_info_obj = Customer.objects.get(hotel_id=request.session.get('user_id'), table_no=table_number_idx)
+            customer_name_val = customer_info_obj.customer_name
+        except Customer.DoesNotExist:
+            customer_info_obj = None
+            customer_name_val = None
+        
+        try:
+            billing_info_set = bill.objects.filter(hotel_id=request.session.get('user_id'), table_no=table_number_idx)
+            total_val = 0
+            for bill_info in billing_info_set:
+                total_val += bill_info.Total
+        except bill.DoesNotExist:
+            billing_info_set = None
+            total_val = None
+        
+        customer_info_data.append({'table_number_idx': table_number_idx, 'customer_name_val': customer_name_val, 'total_amount_val': total_val})
+
+    return render(request,'makebill.html' ,{'customer_data_list':customer_info_data,'customer_data':customer_data,'Total_Count':Total_Count,'table_id':table_id,'dish_data':dish_data,'billing_data':billing_data})
 
 def save_bill(request):
     if 'user_id' not in request.session:
@@ -156,31 +176,6 @@ def delete_bill(request):
             hotel_id = request.session.get('user_id')
             table_no = int(request.POST.get('table_no_delete'))
             try:
-
-
-                cllection_model=collection()
-                try:
-                    customer_data = Customer.objects.get(hotel_id=hotel_id, table_no=table_no)
-                    cllection_model.Customer_name=customer_data.customer_name
-                    cllection_model.mobile=customer_data.customer_mobile_number
-                except:
-                    pass
-                try:
-                    customer_data = bill.objects.filter(hotel_id=hotel_id, table_no=table_no)
-                    if customer_data:
-                        Total=0
-                        for a in customer_data:
-                            Total=Total+a.Total
-                        cllection_model.Total=Total
-                        cllection_model.hotel_id=hotel_id
-                        cllection_model.table_no=table_no
-                        cllection_model.date=datetime.date.today()
-                        cllection_model.save()
-                except Exception as e:
-                    print(e)
-                    pass
-
-
                 try:
                     customer_data = Customer.objects.get(hotel_id=hotel_id, table_no=table_no)
                     customer_data.delete()
@@ -210,6 +205,31 @@ def delete_bill(request):
 def generate(request,table_id):
     if 'user_id' not in request.session:
         return redirect('/')
+    
+
+    cllection_model=collection()
+    try:
+        customer_data = Customer.objects.get(hotel_id=request.session.get('user_id'), table_no=table_id)
+        cllection_model.Customer_name=customer_data.customer_name
+        cllection_model.mobile=customer_data.customer_mobile_number
+    except:
+        pass
+    try:
+        customer_data = bill.objects.filter(hotel_id=request.session.get('user_id'), table_no=table_id)
+        if customer_data:
+            Total=0
+            for a in customer_data:
+                Total=Total+a.Total
+            cllection_model.Total=Total
+            cllection_model.hotel_id=request.session.get('user_id')
+            cllection_model.table_no=table_id
+            cllection_model.date=datetime.date.today()
+            cllection_model.save()
+    except Exception as e:
+        print(e)
+        pass
+
+
     billing_data=bill.objects.filter(hotel_id=request.session.get('user_id'),table_no=table_id)
     Total_Count=0
     for bills_total in billing_data:

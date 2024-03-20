@@ -17,11 +17,10 @@
 
 
 
-<div style="background-color:beige; height: 100vh;">
+<div style="background-color:beige; height: 100vh;" class="p-3">
 
-    <div class="container-fluid text-center">
-        <div class="row">
-            {% comment %} <div class="col-sm-1"></div> {% endcomment %}
+    <div class="container-fluid ">
+        <div class="row p-1">
 
 
 
@@ -29,11 +28,9 @@
 
 
             <!-- content goes here -->
-            <div class="col-12 gaurav">
+            <div class="col-12 gaurav p-2">
                 <h5 style="color: blue;">Item List <button class="btn btn-primary float-right" data-toggle="modal"
                         data-target="#myModal">Add Item</button></h5>
-                {% comment %} <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Item"
-                    title="Type in a name"> {% endcomment %}
                 <input type="text" id="myInput" oninput="searchAndSort()" placeholder="Search Item"
                     title="Type in a name">
 
@@ -118,8 +115,8 @@
 
                 <!-- End of Enter New Student Modal -->
 
-                <div class="container">
-                    <table class="table table-hover" id="myTable">
+                <div class="container-fluid" >
+                    <table class="table table-hover p-2" id="myTable">
                         <thead>
                             <tr style="color: black;">
                                 <th scope="col">S/N</th>
@@ -144,7 +141,7 @@
                                 <td>
                                     <a href="/myhotel/item-delete/{{ row.id }}"
                                         onclick="return confirm('Are Sure Want To Deleted ?')"
-                                        class="btn btn-danger">Delete</a>
+                                        class="btn btn-danger">Del</a>
 
                                 </td>
                             </tr>

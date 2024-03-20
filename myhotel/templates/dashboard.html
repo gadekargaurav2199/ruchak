@@ -3,7 +3,7 @@
 {% block title %}Home - My Website{% endblock %}
 
 {% block content %}
-    <div class="row">
+    <div class="row text-center">
 
         {% for data in customer_data_list %}
         <div class="col-md-4">
@@ -14,7 +14,7 @@
 
                         <p class="card-text" style="color: rgb(145, 143, 143);">{% if data.customer_name %} Customer: {{data.customer_name}} {% else %} --- {% endif %}
                         </p>
-                            <p class="card-text text-center"><b class="text-danger">Total Rs:- {{data.total}} /-</b><span> <a href="/myhotel/generate/{{data.table_no}}/"><span class="btn btn-outline-primary btn-sm mx-3">Print Bill</span></a></span>
+                            <p class="card-text text-center"><b class="text-danger">Total Rs:- {{data.total}} /-</b>
                         </p>
                     </div>
                 </a>

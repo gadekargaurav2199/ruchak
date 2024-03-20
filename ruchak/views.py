@@ -39,7 +39,6 @@ def home(request):
         request.session['hotel'] = user.hotel_name
         request.session['contact1'] = user.mobile_number
         request.session['contact2'] = user.alternate_number
-        messages.success(request, 'Login successful')
         return redirect('/myhotel/')  # Redirect to home page or any other desired page
 
     table_count = 21
@@ -126,7 +125,6 @@ def superuser(request):
         request.session['contact1'] = user.mobile_number
         request.session['contact2'] = user.alternate_number
         request.session['admin'] = True
-        messages.success(request, 'Login successful')
         return redirect('/register_me/')  # Redirect to home page or any other desired page
     table_count=21
     return render(request,'superuser.html' ,{'table_count':table_count})
